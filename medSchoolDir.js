@@ -51,7 +51,7 @@ const fs = require('fs-extra');
         const endPoint = faimerSchoolIds[k].split('');
         while (endPoint.length <= 7) endPoint.unshift('0');
         const wdomsURL = `https://search.wdoms.org/home/SchoolDetail/F${endPoint.join('')}`;
-        await page.goto(wdomsURL);
+        await page.goto(wdomsURL, { waitUntil: 'networkidle2' });
         await page.waitForSelector('#General .span8');
         const schoolName = await page.$eval('.buffer h3', ele => ele.innerText);
 
@@ -76,8 +76,8 @@ const fs = require('fs-extra');
           if (!value || value.length === 0) value = 'null';
           schema[key] = value
         }
-        console.log(`${countryName},${cityName},${schoolName},${schema['School Type']},${schema['Year Instruction Started']},${schema['Operational Status']},${schema['School Website(s)']},${schema['Main Address']},${schema['Phone Number(s)']},${schema['Fax Number(s)']},${schema['Email']},${wdomsURL}\n`);
-        await fs.appendFile('medSchoolDir.csv', `${countryName},${cityName},${schoolName},${schema['School Type']},${schema['Year Instruction Started']},${schema['Operational Status']},"${schema['School Website(s)']}",${schema['Main Address']},${schema['Phone Number(s)']},${schema['Fax Number(s)']},${schema['Email']},${wdomsURL}\n`)
+        // console.log(`${countryName},${cityName},${schoolName},${schema['School Type']},${schema['Year Instruction Started']},${schema['Operational Status']},${schema['School Website(s)']},${schema['Main Address']},"${schema['Phone Number(s)']}","${schema['Fax Number(s)']}",${schema['Email']},${wdomsURL}\n`);
+        await fs.appendFile('medSchoolDir.csv', `${countryName},${cityName},"${schoolName}",${schema['School Type']},${schema['Year Instruction Started']},${schema['Operational Status']},${schema['School Website(s)']},"${schema['Main Address']}",${schema['Phone Number(s)']},${schema['Fax Number(s)']},${schema['Email']},${wdomsURL}\n`)
       }
     }
 
