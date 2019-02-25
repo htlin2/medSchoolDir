@@ -6,7 +6,7 @@ const fs = require('fs-extra');
   try {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    // await fs.writeFile('medSchoolDir.csv','Country,City,Medical School Name,School Type,Year Instruction Started,Operational Status,School Website,Main Address,Phone Number,Fax Number,Email,wdoms\n')
+    await fs.writeFile('medSchoolDir.csv','Country,City,Medical School Name,School Type,Year Instruction Started,Operational Status,School Website,Main Address,Phone Number,Fax Number,Email,wdoms\n')
 
     //get all countries
     const allCountriesPromise = await axios.get('https://search.wdoms.org/Home/GetCountriesList?sUnmember=&_=1550868639760');
@@ -46,7 +46,7 @@ const fs = require('fs-extra');
       }
 
       //grab all info
-      for (let k = 100; k < faimerSchoolIds.length; k++) {
+      for (let k = 0; k < faimerSchoolIds.length; k++) {
         const cityName = cityNames[k];
         const endPoint = faimerSchoolIds[k].split('');
         while (endPoint.length <= 7) endPoint.unshift('0');
